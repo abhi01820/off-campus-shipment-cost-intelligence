@@ -1,0 +1,21 @@
+case_id,route,week_of,expected_justified,expected_note_id,description
+POS_N001_W1,Chennai-Bangalore,2025-02-24,True,N001,N001 active flooding disruption week 1
+POS_N001_W2,Chennai-Bangalore,2025-03-03,True,N001,N001 active flooding disruption week 2 (until Mar 8)
+POS_N002,Ahmedabad-Mumbai,2025-01-20,True,N002,N002 regional festival week temporary surcharge
+POS_N003_W1,Mumbai-Delhi,2025-05-05,True,N003,N003 nationwide diesel price hike initial week
+POS_N003_W2,Mumbai-Delhi,2025-05-12,True,N003,N003 nationwide diesel price hike week 2
+NEG_N001_POST,Chennai-Bangalore,2025-03-10,False,,N001 post-window (roads passable by Mar 9)
+NEG_N001_PRE,Chennai-Bangalore,2025-02-17,False,,N001 prior week before flooding began
+NEG_N001_WRONG_ROUTE,Mumbai-Pune,2025-02-24,False,,N001 flooded highway applied to wrong route
+NEG_N002_WRONG_WEEK,Ahmedabad-Mumbai,2025-01-27,False,,N002 week after festival surcharge ended
+NEG_N002_WRONG_ROUTE,Delhi-Jaipur,2025-01-20,False,,N002 corridor festival applied to wrong route
+NEG_N003_POST,Delhi-Chennai,2025-06-02,False,,N003 weeks later when baseline already absorbed diesel price
+TRAP_N004,Delhi-Jaipur,2024-03-11,False,,TRAP: N004 affected routes are not part of dataset
+TRAP_N005,Mumbai-Delhi,2024-07-29,False,,TRAP: N005 maintenance where costs were not significantly affected
+TRAP_N006,Mumbai-Pune,2025-09-22,False,,TRAP: N006 stable demand with no major disruptions
+TRAP_N007,Delhi-Jaipur,2024-05-20,False,,TRAP: N007 road condition improvements after resurfacing
+TRAP_N008,Kolkata-Bhubaneswar,2025-06-09,False,,TRAP: N008 normal freight movement with no disruptions
+TRAP_N009,Chennai-Bangalore,2025-03-17,False,,TRAP: N009 returned to normal conditions after flood repairs
+TRAP_N010,Mumbai-Pune,2025-10-27,False,,TRAP: N010 compliance costs absorbed without rate change
+UNEXP_DELHI_JAIPUR,Delhi-Jaipur,2024-11-11,False,,Reference sample row 2: unexplained spike
+UNEXP_MUMBAI_PUNE,Mumbai-Pune,2025-09-15,False,,Reference sample row 4: rejected near-miss N006

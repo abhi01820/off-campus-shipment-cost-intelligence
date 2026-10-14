@@ -1,0 +1,44 @@
+# Freight Tiger - Anomaly Detection & AI RAG Configuration
+
+data:
+  shipment_records_path: "data/shipment_records.csv"
+  context_notes_path: "data/context_notes.csv"
+  sample_output_path: "data/sample_output_format_v2.csv"
+
+output:
+  output_csv_path: "outputs/anomaly_report.csv"
+  export_only_candidates: true  # If true, outputs only candidate anomaly weeks matching sample CSV contract ("Yes" or "No (justified)")
+
+anomaly_detection:
+  history_window_weeks: 8
+  # Calibrated against the empirical data distribution:
+  # 9.0% vs own history represents the ~98.5th percentile of weekly cost increases.
+  # 20.0% vs peers represents the ~97.5th percentile of peer spread.
+  # Sample rows reproduced:
+  # - Delhi-Jaipur (2024-11-11): +35.5% vs own, +21.0% vs peers
+  # - Ahmedabad-Mumbai (2025-01-20): +29.5% vs own, +22.5% vs peers
+  # - Mumbai-Pune (2025-09-15): +9.2% vs own, +23.6% vs peers
+  threshold_pct_vs_own: 9.0
+  threshold_pct_vs_peers: 20.0
+  # Combination logic: Cost must be rising (> 0) AND exceed either own history or peer threshold
+  combination_logic: "OR"
+
+retrieval:
+  # Compact, open-source sentence-transformers model (384-dim, fast CPU inference)
+  model_name: "all-MiniLM-L6-v2"
+  top_k: 3
+  similarity_threshold: 0.15
+
+applicability:
+  # For open-ended notes stating "starting this week" (e.g. N003 diesel price hike),
+  # effective duration before subsequent rolling baselines absorb the shift.
+  default_start_only_window_weeks: 2
+  # Maximum calendar days difference for a note to be considered a relevant near-miss
+  max_days_for_near_miss: 14
+  # Similarity threshold above which a rejected candidate is reported as a near-miss explanation
+  near_miss_similarity_threshold: 0.20
+
+explanation:
+  mode: "template"  # Options: "template" (deterministic, 0 cost), "llm" (paraphrase with strict fallback)
+  llm_model: "gpt-4o-mini"
+  llm_temperature: 0.0
